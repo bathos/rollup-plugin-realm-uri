@@ -133,7 +133,7 @@ expertise to be maintained.
 > &nbsp;
 >
 > Mainly curiosity, which I think began when I worked at [Wistia][wistia]. The
-> Wistia video player is used on millions of websites. Occasionally, a bug
+> Wistia video player is used on a ton of websites. Occasionally, a bug
 > investigation would reveal the root cause was one of our innocent looking
 > environmental assumptions being invalidated by realm poisoning. Sometimes
 > these issues can be totally unique to one website — it’s not always due to old
