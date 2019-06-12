@@ -1,0 +1,22 @@
+{
+  "name": "rollup-plugin-realm-uri",
+  "version": "1.0.0",
+  "description": "Import deduplicated references to intrinsic values using realm: scheme URIs",
+  "main": "dist/rollup-plugin-realm-uri.js",
+  "module": "dist/rollup-plugin-realm-uri.mjs",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "tap test/index.js --coverage-report=html"
+  },
+  "keywords": [
+    "rollup-plugin",
+    "intrinsics",
+    "paranoia"
+  ],
+  "author": "Darien Maillet Valentine",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^1.14.6",
+    "tap": "^14.2.2"
+  }
+}
