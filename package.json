@@ -1,6 +1,6 @@
 {
   "name": "rollup-plugin-realm-uri",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Import deduplicated references to intrinsic values using realm: scheme URIs",
   "main": "dist/rollup-plugin-realm-uri.js",
   "module": "dist/rollup-plugin-realm-uri.mjs",
