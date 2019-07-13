@@ -298,11 +298,14 @@ A context is an identifier followed by one slash.
 import next from 'realm:ArrayIteratorPrototype/next';
 ```
 
-There are currently 18 possible context values. Their names, aside from
-`globalThis`, can be found in the list of [well-known intrinsic objects][wkio].
+There are currently 19 possible context values. Aside from `globalThis`, their
+names can be found in the list of [well-known intrinsic objects][wkio]\*.
 Specifically, they are the rows in that table where the ‘global name’ cells are
 blank. When used in a realm URI, the delimiting percent signs (which would
 collide with URI percent encoding) are omitted.
+
+> \* Presently `%RegExpStringIteratorPrototype%` is missing from the list but I
+> believe this is accidental.
 
 #### Property path
 

@@ -65,6 +65,13 @@ export default function renderModule(specifier) {
   return lines.join('\n');
 }
 
+function renderAncestor(id, context, path, target=TARGET_VALUE) {
+  return `import ${ id } from ${ JSON.stringify(renderRealmURI({
+    context, path, target,
+    transform: TRANSFORM_NONE
+  })) };`
+}
+
 function renderGetTargetImport(target) {
   switch (target) {
     case TARGET_DESCRIPTOR:
@@ -74,13 +81,6 @@ function renderGetTargetImport(target) {
     case TARGET_SET:
       return `import get from '\0realm:target-set';`
   }
-}
-
-function renderAncestor(id, context, path, target=TARGET_VALUE) {
-  return `import ${ id } from ${ JSON.stringify(renderRealmURI({
-    context, path, target,
-    transform: TRANSFORM_NONE
-  })) };`
 }
 
 function renderTransformImport(transform) {

@@ -12,6 +12,7 @@ export default new Map([
   'GeneratorPrototype',
   'IteratorPrototype',
   'MapIteratorPrototype',
+  'RegExpStringIteratorPrototype',
   'SetIteratorPrototype',
   'StringIteratorPrototype',
   'ThrowTypeError',
