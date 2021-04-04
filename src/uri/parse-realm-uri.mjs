@@ -23,13 +23,10 @@ export default function parseRealmURI(source) {
     }
 
     if (transform === TRANSFORM_BIND && path.length === 0) {
-      throw new URIError(`The bind transform cannot be used with an empty path`);
+      throw new URIError(`Bind transform cannot be used with an empty path`);
     }
 
-    if (
-      target === TARGET_DESCRIPTOR &&
-      transform !== TRANSFORM_NONE
-    ) {
+    if (target === TARGET_DESCRIPTOR && transform !== TRANSFORM_NONE) {
       throw new URIError(`Only transform=none is valid with #descriptor`);
     }
 
@@ -98,7 +95,7 @@ function getTarget(fragment) {
 }
 
 function getTransform(usp) {
-  let _een = false;
+  let seen = false;
   let transform = TRANSFORM_NONE;
 
   for (const entry of usp) {
@@ -108,11 +105,11 @@ function getTransform(usp) {
       throw new URIError(quoted`${ key } query parameter key is not valid`);
     }
 
-    if (_een) {
+    if (seen) {
       throw new URIError('transform query parameter may appear only once');
     }
 
-    _een = true;
+    seen = true;
 
     switch (value) {
       case 'b': case 'bind':

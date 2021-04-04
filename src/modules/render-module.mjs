@@ -39,18 +39,18 @@ export default function renderModule(specifier) {
       case KEY_TYPE_GLOBAL_SYMBOL:
         lines.push(`import symbolFor from 'realm:Symbol.for';`);
         keyExpression = `symbolFor(${ JSON.stringify(keyDescriptor.value) })`;
-        propertyAccess = `[${ keyExpression }]`;
+        propertyAccess = `?.[${ keyExpression }]`;
         break;
       case KEY_TYPE_STRING:
         keyExpression = JSON.stringify(keyDescriptor.value);
         propertyAccess = isIdentifier(keyDescriptor.value)
-          ? `.${ keyDescriptor.value }`
-          : `[${ keyExpression }]`;
+          ? `?.${ keyDescriptor.value }`
+          : `?.[${ keyExpression }]`;
         break;
       case KEY_TYPE_WELL_KNOWN_SYMBOL:
         lines.push(`import key from 'realm:Symbol.${ keyDescriptor.value }'`);
         keyExpression = 'key';
-        propertyAccess = '[key]';
+        propertyAccess = '?.[key]';
         break;
     }
 

@@ -17,3 +17,22 @@ export default function rollupPluginRealmURI() {
       null
   };
 }
+
+export function esbuild() {
+  let rpru = rollupPluginRealmURI();
+
+  return {
+    name: 'realm-uri',
+
+    setup(build) {
+      build.onResolve({ filter: /^\0?realm:/i }, args => ({
+        namespace: 'realm',
+        path: rpru.resolveId(args.path)
+      }));
+
+      build.onLoad({ filter: /^/i, namespace: 'realm' }, async args => ({
+        contents: await rpru.load(args.path)
+      }));
+    }
+  };
+}

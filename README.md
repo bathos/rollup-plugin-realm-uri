@@ -4,6 +4,26 @@ This [Rollup][rollup] plugin adds support for ES import specifiers that use a
 `realm:` scheme URI to allow importing deduplicated, fixed references to global
 values within the current realm.
 
+## Changes
+
+### 2.0.0:
+
+- Meta: No longer generating a CJS entrypoint in dist
+- Meta: Now exporting an `esbuild()` adapter function
+- Bug fix: Importing the `realm:ArrayIteratorPrototype/` context now works
+- Behavior: `#g` and `#s` now pick up inherited accessors
+- Behavior: `#g` and `#s` will now return undefined if LHS is nullish
+- Behavior: the `t=i`, `t=b`, and `t=n` transforms do the same
+
+> A summary of the main change here: apart from those using `#d`, realm URI
+> imports are now forgiving of intermediate members which are null or undefined.
+> Nullish values will pass through as undefined even if there’s a transform
+> applied.
+>
+> This makes realm URIs more flexible for scenarios where you’re interested in
+> built-in values which may not be present, e.g. due to `Window` vs `Worker`,
+> `[SecureContext]`, or when using newer APIs that aren’t available everywhere.
+
 <!-- MarkdownTOC autolink=true -->
 
 - [Usage example](#usage-example)
@@ -26,7 +46,7 @@ values within the current realm.
 
 ## Usage example
 
-Your module. You want to use `find`, but you do not trust the environment to
+In the following module, you want to use `find`, but you don’t trust the env to
 leave intrinsics alone. Or perhaps this function wants to accept any array-like,
 not limited to arrays:
 
@@ -38,7 +58,7 @@ export function getFoo(arr) {
 }
 ```
 
-Your rollup config:
+Your rollup config for this might look like so:
 
 ```js
 import rollupPluginRealmURI from 'rollup-plugin-realm-uri';
@@ -48,6 +68,22 @@ export default {
   output: { format: 'esm', file: 'dist/index.mjs' },
   plugins: [ rollupPluginRealmURI() ]
 };
+```
+
+Or, using esbuild:
+
+```js
+import * as realmURIPlugin from 'rollup-plugin-realm-uri';
+
+esbuild.build({
+  bundle: true,
+  entryPoints: [ 'src/index.mjs' ],
+  format: 'esm',
+  outfile: 'dist/index.mjs',
+  plugins: [ realmURIPlugin.esbuild() ],
+  target: 'esnext'
+});
+
 ```
 
 ## When is this useful?
@@ -323,6 +359,9 @@ import createC from 'realm:Object.creat%65';
 
 assert(createA === createB);
 assert(createA === createC);
+
+// Okay, not a good demo of the fact that they’re all the same module instance
+// and not three that export the same value, but you get the idea.
 ```
 
 The canonical representation is the shortest representation. If the canonical
@@ -433,9 +472,9 @@ The fragment portion of the URI must be, if present, one of the following:
 | `#set`        | `#s`  | target is `set` function of the property descriptor  |
 | `#value`      | `#v`  | target is the property value (retrieved with Get())  |
 
-The default is `#value`. The `#value` fragment works with properties which are
-only inherited by the lefthand side object, but the other three fragments
-expect an own-property to exist.
+The default is `#value`. The property may be inherited by the lefthand side
+object rather than its own property except when the `#descriptor` fragment is
+used.
 
 Accessor get/set functions are effectively methods, just exposed through a
 different API, so they are suitable for use with the `invert` transform.

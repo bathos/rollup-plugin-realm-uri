@@ -1,3 +1,4 @@
-import getOwnPropertyDescriptor from 'realm:Reflect.getOwnPropertyDescriptor';
+import lookupGetter from 'realm:Object.prototype.__lookupGetter__?t=i';
 
-export default (target, key) => getOwnPropertyDescriptor(target, key).get;
+export default (target, key) =>
+  target == null ? undefined : lookupGetter(target, key);

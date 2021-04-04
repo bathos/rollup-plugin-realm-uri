@@ -23,5 +23,5 @@ export default new Map([
 
 function toContextFileURL(name) {
   const slug = name.replace(/(?<=[a-z])(?=[A-Z])/g, '-').toLowerCase();
-  return new URL(`../runtime/context-${ slug }.mjs`, import.meta.url);
+  return new URL(`../src/runtime/context-${ slug }.mjs`, import.meta.url);
 }
